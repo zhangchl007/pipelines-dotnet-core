@@ -25,7 +25,7 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: Publish
-      run:  dotnet publish -c Release -o ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/website
+      run:  dotnet publish -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/website'
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v2.3.1
       with:
