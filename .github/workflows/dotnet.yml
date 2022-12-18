@@ -6,6 +6,9 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
+env:
+  AZURE_WEBAPP_NAME: devopsdemo007    # set this to your application's name
+  AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -22,11 +25,11 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: Publish
-      run: dotnet publish -c Release -o website
+      run:  dotnet publish -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp'
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v2.3.1
       with:
-        name: devopsdemo007
+        name: webapp
         path: website/**
         if-no-files-found: warn
   deploy:
@@ -36,13 +39,13 @@ jobs:
     - name: Download a Build Artifact
       uses: actions/download-artifact@v2.1.0
       with:
-        name: devopsdemo007
-        path: devopsdemo007
+        name: webapp
+        path: webapp
     - name: Deploy web app
       uses: azure/webapps-deploy@v2
       with:
         app-name: GitHubApp-@lab.LabInstance.Id
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: devopsdemo007
+        package: webapp
 
 
