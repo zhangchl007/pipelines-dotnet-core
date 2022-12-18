@@ -43,7 +43,7 @@ jobs:
     - name: Deploy web app
       uses: azure/webapps-deploy@v2
       with:
-        app-name: GitHubApp-@lab.LabInstance.Id
+        app-name: devopsdemo007
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         package: webapp
 
